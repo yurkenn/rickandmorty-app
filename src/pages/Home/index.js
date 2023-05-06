@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacters } from '../../redux/charactersSlice';
-import { Box, Button, Flex, Image, Text, IconButton, Skeleton } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text, Skeleton } from '@chakra-ui/react';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { Link } from 'react-router-dom';
@@ -53,28 +53,43 @@ const Home = () => {
               transition="all 0.2s ease-in-out"
             >
               <Link to={`/character/${character.id}`}>
-                <Skeleton isLoaded={Boolean(character)}>
+                <Flex position="relative">
+                  <Image src={character?.image} alt={character?.name} borderRadius="md" />
                   <Text
-                    fontSize="xl"
-                    fontFamily='
-                  "Roboto Mono", monospace
-                  '
-                    color="white"
-                  >
-                    {character?.name ?? 'Name'}
-                  </Text>
-
-                  <Text fontSize="md" color="grey" w="100%" css={{ wordWrap: 'break-word' }}>
-                    {character?.species ?? 'Species'}
-                  </Text>
-                  <Image
-                    src={character?.image ?? 'https://via.placeholder.com/250x250'}
-                    alt={character?.name ?? 'Image'}
+                    position={'absolute'}
+                    top={'10px'}
+                    right={'10px'}
+                    bg={character.status === 'Alive' ? 'green.400' : 'red.500'}
+                    color={'white'}
+                    p={2}
                     borderRadius="md"
-                    mt="4"
-                  />
-                </Skeleton>
+                    fontSize="sm"
+                  >
+                    {character.status}
+                  </Text>
+                </Flex>
               </Link>
+              <Box p="6">
+                <Text
+                  mt="1"
+                  fontWeight="semibold"
+                  fontSize={character?.name.length > 20 ? 'md' : 'xl'}
+                  as="h4"
+                  lineHeight="tight"
+                  isTruncated
+                  color="gray.100"
+                >
+                  {character?.name}
+                </Text>
+
+                <Text ml="2" color="gray.400" fontSize="sm">
+                  {character?.species}
+                </Text>
+
+                <Text mt="2" color="gray.400" fontSize="sm">
+                  {character.location.name}
+                </Text>
+              </Box>
             </Box>
           ))}
         </Flex>
