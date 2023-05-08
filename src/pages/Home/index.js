@@ -1,24 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacters } from '../../redux/charactersSlice';
-import { Box, Button, Flex, Image, Text, Skeleton } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
-import { Link } from 'react-router-dom';
+import HomeCard from '../../components/Cards/HomeCard';
+import Search from '../../components/Search';
 
 const Home = () => {
+  const [searchName, setSearchName] = useState('');
   const dispatch = useDispatch();
   const characters = useSelector((state) => state.characters.items);
   const status = useSelector((state) => state.characters.status);
   const error = useSelector((state) => state.characters.error);
   const page = useSelector((state) => state.characters.page);
   const hasNextPage = useSelector((state) => state.characters.hasNextPage);
+  const name = useSelector((state) => state.characters.name);
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchCharacters());
+      dispatch(fetchCharacters({ page, name: searchName }));
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, page, name, searchName]);
+
+  const searchedResults = characters.filter((character) => {
+    return character.name.toLowerCase().includes(searchName.toLowerCase());
+  });
 
   return (
     <Flex
@@ -33,64 +40,10 @@ const Home = () => {
       bgRepeat="no-repeat"
     >
       <Box w="100%" maxW="1200px" mt="290" p="4" bg="gray.700" borderRadius="md">
+        <Search setSearchName={setSearchName} searchName={searchName} />
         <Flex direction="row" align="center" justify="center" flexWrap="wrap">
-          {characters.map((character) => (
-            <Box
-              key={character.id}
-              m={5}
-              p={5}
-              borderRadius="lg"
-              borderWidth="1px"
-              borderColor="gray.600"
-              maxW="sm"
-              textAlign="center"
-              overflow="hidden"
-              shadow="md"
-              _hover={{
-                cursor: 'pointer',
-                bg: 'gray.500',
-              }}
-              transition="all 0.2s ease-in-out"
-            >
-              <Link to={`/character/${character.id}`}>
-                <Flex position="relative">
-                  <Image src={character?.image} alt={character?.name} borderRadius="md" />
-                  <Text
-                    position={'absolute'}
-                    top={'10px'}
-                    right={'10px'}
-                    bg={character.status === 'Alive' ? 'green.400' : 'red.500'}
-                    color={'white'}
-                    p={2}
-                    borderRadius="md"
-                    fontSize="sm"
-                  >
-                    {character.status}
-                  </Text>
-                </Flex>
-              </Link>
-              <Box p="6">
-                <Text
-                  mt="1"
-                  fontWeight="semibold"
-                  fontSize={character?.name.length > 20 ? 'md' : 'xl'}
-                  as="h4"
-                  lineHeight="tight"
-                  isTruncated
-                  color="gray.100"
-                >
-                  {character?.name}
-                </Text>
-
-                <Text ml="2" color="gray.400" fontSize="sm">
-                  {character?.species}
-                </Text>
-
-                <Text mt="2" color="gray.400" fontSize="sm">
-                  {character.location.name}
-                </Text>
-              </Box>
-            </Box>
+          {searchedResults.map((character) => (
+            <HomeCard key={character.id} character={character} />
           ))}
         </Flex>
       </Box>
@@ -104,7 +57,7 @@ const Home = () => {
             variant="outline"
             mr="4"
             onClick={() => {
-              dispatch(fetchCharacters(page));
+              dispatch(fetchCharacters({ page: page + 1, name: searchName }));
             }}
           >
             Load More... {page - 1}

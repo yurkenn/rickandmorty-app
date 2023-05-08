@@ -1,7 +1,8 @@
-import { Avatar, Box, Center, Flex, Image, Text } from '@chakra-ui/react';
+import { Center, Flex, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import DetailCard from '../../components/Cards/DetailCard';
 
 const Detail = () => {
   const { character_id } = useParams();
@@ -53,40 +54,7 @@ const Detail = () => {
       bgPosition="top"
       bgRepeat="no-repeat"
     >
-      <Box mt='10'>
-        <Avatar
-          name={character.name}
-          src={character.image}
-          boxSize="150px"
-          objectFit="cover"
-          mb="4"
-        />
-        <Text
-          fontSize="xl"
-          fontFamily='
-            "Roboto Mono", monospace
-            '
-          color="white"
-        >
-          {character.name}
-        </Text>
-
-        <Text fontSize="md" color="whiteAlpha.700" w="100%" css={{ wordWrap: 'break-word' }}>
-          Status: {character.status}
-        </Text>
-        <Text fontSize="md" color="whiteAlpha.700" w="100%" css={{ wordWrap: 'break-word' }}>
-          Species: {character.species}
-        </Text>
-        <Text fontSize="md" color="whiteAlpha.700" w="100%" css={{ wordWrap: 'break-word' }}>
-          Gender: {character.gender}
-        </Text>
-        <Text fontSize="md" color="whiteAlpha.700" w="100%" css={{ wordWrap: 'break-word' }}>
-          Origin: {character.origin.name}
-        </Text>
-        <Text fontSize="md" color="whiteAlpha.700" w="100%" css={{ wordWrap: 'break-word' }}>
-          Location: {character.location.name}
-        </Text>
-      </Box>
+      <DetailCard character={character} />
     </Flex>
   );
 };

@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchCharacters = createAsyncThunk('characters/fetchCharacters', async (page) => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_API_BASE_ENDPOINT}/character?page=${page}`
-  );
-  return response.data;
-});
+export const fetchCharacters = createAsyncThunk(
+  'characters/fetchCharacters',
+  async ({ page, name }) => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_BASE_ENDPOINT}/character?page=${page}&name=${name}`
+    );
+    return response.data;
+  }
+);
 
 const initialState = {
   items: [],
@@ -14,6 +17,7 @@ const initialState = {
   error: null,
   page: 1,
   hasNextPage: true,
+  name: '',
 };
 
 const characterSlice = createSlice({
@@ -27,6 +31,7 @@ const characterSlice = createSlice({
     builder.addCase(fetchCharacters.fulfilled, (state, action) => {
       state.items = [...state.items, ...action.payload.results];
       state.page = state.page + 1;
+      state.name = action.payload.name;
       state.status = 'succeeded';
       if (action.payload.info.next === null) {
         state.hasNextPage = false;
