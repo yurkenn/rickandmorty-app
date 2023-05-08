@@ -1,9 +1,9 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 const Error = () => {
   return (
-    <Flex direction="column" align="center" justify="center" minH="100vh" bg="gray.800">
+    <Flex direction="column" align="center" justify="center">
       <Text
         fontSize="6xl"
         color="white"

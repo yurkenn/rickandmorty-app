@@ -1,4 +1,4 @@
-import { Box, Flex, SkeletonCircle, SkeletonText, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
 import React from 'react';
 
 const Loading = () => {
