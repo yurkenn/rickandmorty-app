@@ -4,6 +4,12 @@ This is a simple app that uses the [Rick & Morty API](https://rickandmortyapi.co
 
 ### Video 
 
+
+
+https://github.com/yurkenn/rickandmorty-app/assets/69719126/65c71bc2-8979-4d5b-80e8-d805abd0b7c6
+
+
+
 ### Features
 
 - Display a list of characters
