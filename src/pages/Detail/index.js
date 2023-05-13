@@ -1,7 +1,7 @@
 import { Center, Flex, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DetailCard from '../../components/Cards/DetailCard';
 
 const Detail = () => {
@@ -43,19 +43,21 @@ const Detail = () => {
   }
 
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      minH="100vh"
-      bg="gray.900"
-      bgImg="https://hbomax-images.warnermediacdn.com/2022-08/tt.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com"
-      bgSize="initial"
-      bgPosition="top"
-      bgRepeat="no-repeat"
-    >
-      <DetailCard character={character} />
-    </Flex>
+    <Link to="/">
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        minH="100vh"
+        bg="gray.900"
+        bgImg="https://hbomax-images.warnermediacdn.com/2022-08/tt.png?host=wme-hbomax-drupal-prod.s3.amazonaws.com"
+        bgSize="initial"
+        bgPosition="top"
+        bgRepeat="no-repeat"
+      >
+        <DetailCard character={character} />
+      </Flex>
+    </Link>
   );
 };
 export default Detail;
